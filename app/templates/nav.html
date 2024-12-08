@@ -17,9 +17,92 @@
               
             </ul>
               <!-- CTA Button -->
-             <div class="hidden items-center gap-4 sm:flex">
-                <li><a href="#" class="rounded-md px-4 py-2 text-center text-sm font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 bg-[#1B952B]">Generate</a></li>
-             </div>
+              <div x-data="{ modelOpen: false }">
+                <button @click="modelOpen =!modelOpen" class="hidden sm:flex items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-[#1B952B] rounded-md hover:bg-green-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
+                  
+            
+                    <span>Generate</span>
+                </button>
+            
+                <div x-show="modelOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+                        <div x-cloak @click="modelOpen = false" x-show="modelOpen" 
+                            x-transition:enter="transition ease-out duration-300 transform"
+                            x-transition:enter-start="opacity-0" 
+                            x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-200 transform"
+                            x-transition:leave-start="opacity-100" 
+                            x-transition:leave-end="opacity-0"
+                            class="fixed inset-0 transition-opacity bg-gray-500 backdrop-blur bg-opacity-40" aria-hidden="true"
+                        ></div>
+            
+                        <div x-cloak x-show="modelOpen" 
+                            x-transition:enter="transition ease-out duration-300 transform"
+                            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
+                            x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                            x-transition:leave="transition ease-in duration-200 transform"
+                            x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
+                            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            class="inline-block w-full max-w-l p-8 my-20 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl"
+                        >
+                            <div class="flex items-center justify-end space-x-4">        
+                                <button @click="modelOpen = false" class="text-gray-600 focus:outline-none hover:text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+            
+                            <div class="flex pb-5 flex-col items-center justify-between">
+                                <h1 class="text-3xl w-full font-extrabold text-[#1B952B]">
+                                  Create & Download
+                                </h1>
+                                <p class="mt-2 pb-3 text-md text-gray-800 w-full">
+                                    Over here you can make your urls easily accessible 
+                                  </p>
+                              </div>
+                            <div class="flex flex-col items-center justify-between">
+                                <h1 class="text-xl w-full font-semibold text-gray-800">
+                                Enter URL
+                                </h1>
+                                <p class="mt-2 text-md text-gray-800 w-full">
+                                Enter the URL to generate a customized QR code.
+                                  </p>
+                              </div>
+        
+                              <div class=" py-5">
+                                <input
+                                  type="text"
+                                  id="domain"
+                                  name="domain"
+                                  class="p-2 w-full border rounded-md"
+                                  placeholder="eg. acme.com"
+                                />
+                              </div>
+                
+                             
+                            <!-- Dialog Footer -->
+                            <div class="flex justify-center">
+                                <button
+                                  @click="modelOpen = false"
+                                  type="button"
+                                  class="mr-2 w-1/2 py-2 text-sm tracking-wide capitalize transition-colors border border-gray-300 duration-200 transform bg-white hover:bg-gray-200 rounded-md"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  for="show"
+                                  @click="modelOpen = false"
+                                  type="submit"
+                                  class="justify-center bg-[#1B952B] text-white hover:bg-green-600 focus:ring focus:outline-none shadow-md focus:ring-gray-100 font-medium rounded-lg text-sm w-1/2 py-2.5 text-center inline-flex items-center"
+                                >
+                                  <span><input type="submit" value="Generate" /></span>
+                                </button>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
            
             <!-- Mobile Menu Button -->
             <button @click="mobileMenuIsOpen = !mobileMenuIsOpen" :aria-expanded="mobileMenuIsOpen" :class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20 ' : 'bg-[#1B952B]'" type="button" class="flex text-neutral-600 dark:text-neutral-300 sm:hidden rounded-3xl px-3 py-1" aria-label="mobile menu" aria-controls="mobileMenu">
