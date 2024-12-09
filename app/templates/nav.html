@@ -2,7 +2,7 @@
 {%block content%}
 
 <div class="flex justify-center items-center p-2 sm:p-10">
-        <nav x-data="{ mobileMenuIsOpen: false }" @click.away="mobileMenuIsOpen = false" class="flex items-center justify-between px-6 py-4 bg-[#262626] w-11/12 h-14 sm:h-16 rounded-md" aria-label="">
+        <nav x-data="{ mobileMenuIsOpen: false }" @click.away="mobileMenuIsOpen = false" class="flex items-center justify-between px-6 py-4 bg-[#262626] w-11/12 h-12 sm:h-16 rounded-md" aria-label="">
             <!-- Brand Logo -->
             <a href="#" class="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
                 <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Logo">
@@ -133,9 +133,130 @@
         
             <!-- CTA Button -->
             <li class="bottom-0 py-10 w-full border-none">
-                <a href="#" class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">
-                    Generate QR
-                </a>
+               <div x-data="{ modelOpen: false }">
+    <button
+      @click="modelOpen =!modelOpen"
+      class="flex w-full items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-[#1B952B] rounded-md hover:bg-green-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+    >
+      <span>Generate QR</span>
+    </button>
+
+    <div
+      x-show="modelOpen"
+      class="fixed inset-0 z-50 overflow-y-auto"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="flex  items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0"
+      >
+        <div
+          x-cloak
+          @click="modelOpen = false"
+          x-show="modelOpen"
+          x-transition:enter="transition ease-out duration-300 transform"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="transition ease-in duration-200 transform"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          class="fixed inset-0 transition-opacity bg-gray-500 backdrop-blur bg-opacity-40"
+          aria-hidden="true"
+        ></div>
+
+        <div
+          x-cloak
+          x-show="modelOpen"
+          x-transition:enter="transition ease-out duration-300 transform"
+          x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+          x-transition:leave="transition ease-in duration-200 transform"
+          x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+          x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          class="inline-block w-full max-w-lg p-8 my-20 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-xl"
+        >
+          <div class="flex items-center justify-end p-4 space-x-4">
+            <button
+              @click="modelOpen = false"
+              class="text-gray-600 focus:outline-none hover:text-gray-700"
+            >
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"/></svg>
+            </button>
+          </div>
+
+          <div class="bg-white p-2 mx-auto">
+            <!-- Title Section -->
+            <div class="">
+              <h1 class="sm:text-3xl text-xl font-extrabold text-green-600">
+                Create & Download
+              </h1>
+              <p class="mt-2 text-gray-400 text-sm font-light">
+                Easily create and download customized QR codes for your URLs.
+              </p>
+            </div>
+
+            <!-- Input Section -->
+            <div class="mt-6">
+              <h2 class="sm:text-lg">Enter URL</h2>
+              <p class="mt-2 text-gray-400 text-sm font-light">
+                Provide the URL to generate a unique QR code for easy sharing.
+              </p>
+            </div>
+             <form method="POST" action="/" class="w-full">
+            <!-- Hidden CSRF Token -->
+            {{ form.hidden_tag() }}
+
+            <!-- Input Field -->
+            <div class="py-5">
+              {{ form.data(class="p-2 w-full border rounded-md",
+              placeholder="Ex. www.acme.com") }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-center">
+            
+
+              {{ form.submit(class="justify-center bg-[#1B952B] text-white
+              hover:bg-green-600 focus:ring focus:outline-none shadow-md
+              focus:ring-gray-100 font-medium rounded-lg text-sm w-1/2 py-2.5
+              text-center inline-flex items-center") }}
+            </div>
+          </form>
+
+              {% if qr_code_data %}
+            <div x-data="{ qrCodeGenerated: true }" class="mt-6 text-center">
+                <img src="data:image/png;base64,{{ qr_code_data }}" 
+                     alt="Generated QR Code" 
+                     class="mt-4 mx-auto border rounded-3xl shadow-md">
+            </div>
+             
+    <div class="flex justify-center mt-5">
+              <button
+                @click="modelOpen = false"
+                type="button"
+                class="mr-2 w-1/2 py-2 text-sm tracking-wide capitalize transition-colors border border-gray-300 duration-200 transform bg-white hover:bg-gray-200 rounded-md"
+              >
+                Cancel
+              </button>
+
+              <button class="justify-center bg-[#1B952B] text-white
+              hover:bg-green-600 focus:ring focus:outline-none shadow-md
+              focus:ring-gray-100 font-medium rounded-lg text-sm w-1/2 py-2.5
+              text-center inline-flex items-center">
+              Download
+            </button>
+            </div>
+            {% endif %}
+          </div>
+
+          
+
+          <!-- Dialog Footer -->
+        </div>
+      </div>
+    </div>
+  </div>
             </li>
         </ul>
         
