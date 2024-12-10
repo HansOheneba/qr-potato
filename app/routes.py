@@ -16,7 +16,7 @@ def index():
 def generate_qr():
     form = QRCodeForm()
     if form.validate_on_submit():
-        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+        qr = qrcode.QRCode(version=1, box_size=10, border=2)
         qr.add_data(form.data.data)
         qr.make(fit=True)
         img = qr.make_image(fill="black", back_color="white")
