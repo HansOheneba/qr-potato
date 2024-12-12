@@ -53,46 +53,46 @@
           x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           class="inline-block w-full max-w-lg p-8 my-20 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-xl"
         >
-          <div class="flex items-center justify-end p-4 space-x-4">
+          <div class="flex items-center justify-end">
             <button
               @click="modelOpen = false"
               class="text-gray-600 focus:outline-none hover:text-gray-700"
             >
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"/></svg>
+       <i class="fa-solid fa-x"></i>
             </button>
           </div>
 
           <div class="bg-white p-2 mx-auto">
             <!-- Title Section -->
             <div class="">
-              <h1 class="sm:text-3xl text-xl font-extrabold text-green-600">
+              <h1 class="sm:text-2xl  text-lg font-extrabold text-green-600">
                 Create & Download
               </h1>
-              <p class="mt-2 text-gray-400 text-sm font-light">
+              <p class="mt-2 text-gray-400 text-xs font-light">
                 Easily create and download customized QR codes for your URLs.
               </p>
             </div>
 
             <!-- Input Section -->
             <div class="mt-6">
-              <h2 class="sm:text-lg">Enter URL</h2>
-              <p class="mt-2 text-gray-400 text-sm font-light">
+              <h2 class="sm:text-base">Enter URL</h2>
+              <p class="mt-2 text-gray-400 text-xs font-light">
                 Provide the URL to generate a unique QR code for easy sharing.
               </p>
             </div>
            <form id="qrForm" onsubmit="generateQRCode(event)" class="w-full flex flex-col justify-center mt-4">
                         {{ form.hidden_tag() }}
-                        <div class="mb-4">
-                            {{ form.data(class="p-2 w-full border rounded-md", placeholder="Enter your URL") }}
+                        <div class="">
+                            {{ form.data(class="p-2 w-full border rounded-md", id="input", placeholder="Enter your URL") }}
                         </div>
-                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md w-fit mx-auto">
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md w-fit mx-auto mt-4">
                             Generate
                         </button>
                     </form>
 
                     <!-- QR Code Display -->
                     <div id="qrBox" class="mt-6 hidden flex-col items-center justify-center text-center">
-                      <div class="w-fit p-10 border border-green-200 rounded-lg shadow">
+                      <div class="w-fit sm:p-10 border border-green-200 rounded-lg shadow">
                         <img id="qrCodeImage" style="display: none;" 
                              alt="Generated QR Code" 
                              class=" mx-auto">
@@ -101,7 +101,7 @@
                              </div>
                                 <div class="flex justify-center mt-5 w-full">
               <button
-                @click="modelOpen = false"
+                @click="clear(); modelOpen = false"
                 type="button"
                 class="mr-2 w-1/2 py-2 text-sm tracking-wide capitalize transition-colors border border-gray-300 duration-200 transform bg-white hover:bg-gray-200 rounded-md"
               >
@@ -133,5 +133,7 @@
     alt=""
   />
 </div>
+
+<div class="bg-gray-100 text-gray-200 cursor-not-allowed hidden"></div>
 
 {% endblock %}
